@@ -1,13 +1,15 @@
 # xml2json
+
 CLI tool to convert XML into JSON
 
-# Installation
+## Installation
 
 ```shell
 cargo install xml2json
 ```
 
-# Usage
+## Usage
+
 ```shell
 xml2json 0.1.0
 Jan Starke <Jan.Starke@t-systems.com>

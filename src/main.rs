@@ -1,10 +1,9 @@
-
 use clap::Parser;
 use anyhow::Result;
 use file_type::FileType;
 use quick_xml::Reader;
 use simplelog::{TermLogger, Config, TerminalMode, ColorChoice};
-use std::io::{BufReader};
+use std::io::BufReader;
 
 mod xmltojson;
 mod file_type;
@@ -31,14 +30,15 @@ fn main() -> Result<()> {
         Config::default(),
         TerminalMode::Stderr,
         ColorChoice::Auto)?;
-        
+
 
     let input_stream = cli.xml_file.as_reader()?;
     let output_stream = cli.json_file.as_writer()?;
 
     let mut reader = Reader::from_reader(BufReader::new(input_stream));
-    let val = xmltojson::read(&mut reader, 0);
+    reader.trim_text(true);
+    let val = xmltojson::read(&mut reader, 0, "root".to_string());
 
-    serde_json::ser::to_writer(output_stream, &val)?;
+    serde_json::ser::to_writer_pretty(output_stream, &val)?;
     Ok(())
 }
